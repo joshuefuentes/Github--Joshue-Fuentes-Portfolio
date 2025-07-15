@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redesigning HDI - Oregon County Analysis | Joshue Fuentes Ventura</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #e0e6ed;
+            background: linear-gradient(135deg, #0f0f23 0%, #2d1b69 25%, #667eea 75%, #764ba2 100%);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(0, 255, 255, 0.1) 0%, transparent 25%),
+                radial-gradient(circle at 75% 75%, rgba(255, 0, 255, 0.08) 0%, transparent 25%),
+                radial-gradient(circle at 50% 50%, rgba(102, 126, 234, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(15, 15, 35, 0.85);
+            backdrop-filter: blur(20px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00ffff, #667eea, #ff00ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .back-link {
+            color: #00ffff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+        }
+
+        main {
+            margin-top: 80px;
+            padding: 2rem 0;
+        }
+
+        .hero {
+            background: rgba(15, 15, 35, 0.4);
+            backdrop-filter: blur(20px);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #00ffff, #667eea, #ff00ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .section {
+            background: rgba(15, 15, 35, 0.6);
+            backdrop-filter: blur(20px);
+            margin: 2rem 0;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        .section h2 {
+            color: #00ffff;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .section h3 {
+            color: #ff00ff;
+            font-size: 1.3rem;
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background: rgba(15, 15, 35, 0.8);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+        }
+
+        .card h4 {
+            color: #00ffff;
+            margin-bottom: 1rem;
+        }
+
+        .team-section {
+            background: rgba(15, 15, 35, 0.8);
+            border-left: 4px solid #ff00ff;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .passion-highlight {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .passion-highlight h3 {
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+
+        .data-source {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .methodology-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .flow-step {
+            background: rgba(15, 15, 35, 0.8);
+            border: 2px solid #00ffff;
+            border-radius: 15px;
+            padding: 1rem;
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .arrow {
+            color: #ff00ff;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .coming-soon {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            border-radius: 15px;
+            color: #ffa500;
+        }
+
+        .hdi-comparison {
+            background: rgba(15, 15, 35, 0.9);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .hdi-tier {
+            display: inline-block;
+            background: rgba(0, 255, 255, 0.2);
+            border: 1px solid #00ffff;
+            border-radius: 10px;
+            padding: 0.5rem 1rem;
+            margin: 0.5rem;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .methodology-flow {
+                flex-direction: column;
+            }
+
+            .arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo">Joshue Fuentes Ventura</a>
+            <a href="index.html" class="back-link">← Back to Portfolio</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Redesigning HDI</h1>
+            <p style="font-size: 1.2rem; margin-bottom: 1rem;">Exploring the Computation and Analysis of Human Development Among Oregon Counties</p>
+            <div class="status-badge">In Progress - Completion August 2025</div>
+            <p style="margin-top: 1rem; max-width: 800px; margin-left: auto; margin-right: auto;">Using deep learning and Oregon-specific data sources to create a modernized Human Development Index that better reflects local economic mobility, health outcomes, and educational attainment.</p>
+        </section>
+
+        <div class="passion-highlight">
+            <h3>🎓 Driven by Passion for Equitable Education</h3>
+            <p>This project stems from a deep commitment to leveraging data science for social good. By creating transparent, data-driven tools for legislators and educators, we aim to identify communities that need support and ensure all Oregon students have access to quality educational opportunities regardless of their zip code.</p>
+        </div>
+
+        <section class="section">
+            <h2>Problem Statement</h2>
+            <div class="grid">
+                <div class="card">
+                    <h4>🏫 Educational Inequity Challenge</h4>
+                    <p>Educational opportunities in Oregon's public institutions (K-12) are significantly influenced by local revenue, including property taxes. However, property taxes are not directly indicative of school performance, creating disparities across communities.</p>
+                </div>
+                <div class="card">
+                    <h4>📊 Missing Unified Metric</h4>
+                    <p>Oregon presently lacks a single metric to compute the overall quality of life for Oregonians. While individual metrics like education scores and income exist, there's no comprehensive tool for state leaders to identify communities needing assistance.</p>
+                </div>
+                <div class="card">
+                    <h4>🎯 Solution Vision</h4>
+                    <p>A "State Success" computational framework would provide necessary visibility for legislators and help educational entrepreneurs create resources tailored to Oregon regions based on their specific needs.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Team Collaboration</h2>
+            <div class="team-section">
+                <h3>🤝 Collaborative Research Team</h3>
+                <p><strong>Team Leader:</strong> Edward Miranda</p>
+                <p><strong>Team Members:</strong> Ghson Altibi, Endy Zarate, Joshue Fuentes-Ventura</p>
+                
+                <h4 style="color: #00ffff; margin-top: 1.5rem;">My Contributions:</h4>
+                <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                    <li><strong>Data Ingestion Lead:</strong> US Census (ACS) and Bureau of Labor Statistics data acquisition</li>
+                    <li><strong>Database Engineering:</strong> Data cleaning, normalization, and integration pipelines</li>
+                    <li><strong>Python Development:</strong> Statistical analysis code and data processing scripts</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Methodology Evolution</h2>
+            <h3>🧠 From Traditional HDI to Deep Learning Innovation</h3>
+            
+            <div class="methodology-flow">
+                <div class="flow-step">
+                    <h4 style="color: #00ffff;">Phase 1</h4>
+                    <p><strong>Traditional Approach</strong></p>
+                    <p>Statistical methods, standard HDI formulation</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="flow-step">
+                    <h4 style="color: #ff00ff;">Phase 2</h4>
+                    <p><strong>Deep Learning Discovery</strong></p>
+                    <p>Uncover hidden relationships in data</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="flow-step">
+                    <h4 style="color: #00ffff;">Phase 3</h4>
+                    <p><strong>Custom HDI Creation</strong></p>
+                    <p>Data-driven equation development</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="flow-step">
+                    <h4 style="color: #ff00ff;">Phase 4</h4>
+                    <p><strong>Geographic Visualization</strong></p>
+                    <p>County-level mapping and analysis</p>
+                </div>
+            </div>
+
+            <h3>🔬 Deep Learning Approach</h3>
+            <div class="grid">
+                <div class="card">
+                    <h4>Pattern Discovery</h4>
+                    <p>Deep learning will point out patterns we can choose whether to include in our analysis. We don't need to pick and choose features beforehand - we want the most data possible.</p>
+                </div>
+                <div class="card">
+                    <h4>Literature Integration</h4>
+                    <p>Literature review will explain why we make specific decisions. For each parameter in our HDI calculation, we'll provide evidence-based justification pointing to relevant research.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Comprehensive Data Sources</h2>
+            <div class="grid">
+                <div class="data-source">
+                    <h4>🏛️ U.S. Census (ACS)</h4>
+                    <p><strong>Source:</strong> Public API (api.census.gov)</p>
+                    <p><strong>Variables:</strong> Median income, poverty rate, unemployment, education attainment, population demographics</p>
+                    <p><strong>Scope:</strong> 36 counties × 15-20 variables × 5 years = ~3,600 data points</p>
+                    <p><strong>My Role:</strong> Lead data ingestion and preprocessing</p>
+                </div>
+                
+                <div class="data-source">
+                    <h4>🏥 Oregon Health Authority</h4>
+                    <p><strong>Source:</strong> Public health data portal</p>
+                    <p><strong>Variables:</strong> Life expectancy, physician access, health outcomes</p>
+                    <p><strong>Scope:</strong> 36 counties × 8-10 health metrics</p>
+                    <p><strong>Processing:</strong> Age adjustment, missing value imputation</p>
+                </div>
+
+                <div class="data-source">
+                    <h4>🎓 Oregon Department of Education</h4>
+                    <p><strong>Variables:</strong> Graduation rates, per-pupil spending, college readiness</p>
+                    <p><strong>Scope:</strong> 36 counties × 6-8 education metrics</p>
+                    <p><strong>Processing:</strong> District-to-county aggregation</p>
+                </div>
+
+                <div class="data-source">
+                    <h4>💼 Bureau of Labor Statistics</h4>
+                    <p><strong>Source:</strong> Public API and downloadable datasets</p>
+                    <p><strong>Variables:</strong> Unemployment rates, job growth, wage data</p>
+                    <p><strong>Scope:</strong> 36 counties × 10 variables × 3 years = ~1,080 data points</p>
+                    <p><strong>My Role:</strong> Data extraction and trend calculation</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>HDI Framework Redesign</h2>
+            <div class="hdi-comparison">
+                <h3 style="color: #ffd700; text-align: center; margin-bottom: 2rem;">Traditional HDI vs. Our Approach</h3>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>📊 Traditional HDI Limitations</h4>
+                        <p>Standard HDI uses simple formulas that may not capture complex local dynamics or hidden relationships between socioeconomic factors.</p>
+                    </div>
+                    <div class="card">
+                        <h4>🚀 Our Innovation</h4>
+                        <p>Deep learning discovers patterns in 6,000+ data points across Oregon counties, creating a custom equation based on actual relationships in the data.</p>
+                    </div>
+                </div>
+
+                <h4 style="color: #00ffff; margin-top: 2rem;">HDI Classification Tiers (0-1 Scale)</h4>
+                <div style="text-align: center; margin-top: 1rem;">
+                    <div class="hdi-tier" style="background: rgba(255, 0, 0, 0.2); border-color: #ff0000;">
+                        <strong>Low:</strong> Below 0.550
+                    </div>
+                    <div class="hdi-tier" style="background: rgba(255, 165, 0, 0.2); border-color: #ffa500;">
+                        <strong>Medium:</strong> 0.550 - 0.699
+                    </div>
+                    <div class="hdi-tier" style="background: rgba(255, 255, 0, 0.2); border-color: #ffff00;">
+                        <strong>High:</strong> 0.700 - 0.799
+                    </div>
+                    <div class="hdi-tier" style="background: rgba(0, 255, 0, 0.2); border-color: #00ff00;">
+                        <strong>Very High:</strong> 0.800+
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 1rem; color: #ffd700;">
+                    <strong>US National HDI (2023):</strong> 0.938 (Very High) - Ranked 17th globally
+                </p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Expected Outcomes & Impact</h2>
+            <div class="grid">
+                <div class="card">
+                    <h4>📍 County-Level Scoring</h4>
+                    <p>Composite score (0-100 scale) ranking all 36 Oregon counties based on Economic Opportunity, Education, and Quality of Life pillars.</p>
+                </div>
+                <div class="card">
+                    <h4>🗺️ Interactive Dashboard</h4>
+                    <p>Geographic visualization allowing comparison of counties and exploration of underlying metrics with heat maps and county rankings.</p>
+                </div>
+                <div class="card">
+                    <h4>📋 Policy Framework</h4>
+                    <p>Methodology documentation for transparency and annual updating, enabling evidence-based policy decisions for Oregon legislators.</p>
+                </div>
+                <div class="card">
+                    <h4>🎯 Educational Impact</h4>
+                    <p>Students in Oregon's public schools will benefit through increased funding, diversified educational opportunities, and greater access to support materials.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Future Scalability</h2>
+            <div class="team-section">
+                <h3>🌟 Beyond Oregon</h3>
+                <p>While this semester's project focuses exclusively on Oregon's 36 counties, the methodology and framework are designed for scalability. Post-graduation plans include:</p>
+                <ul style="margin-left: 2rem; margin-top: 1rem;">
+                    <li><strong>National Expansion:</strong> Adapting the model for all 50 states</li>
+                    <li><strong>Real-time Integration:</strong> Automated data updates for continuous monitoring</li>
+                    <li><strong>Policy Integration:</strong> Working with government agencies for official adoption</li>
+                    <li><strong>Open Source Release:</strong> Making tools available for other researchers and states</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Code & Documentation</h2>
+            <div class="coming-soon">
+                <h3>🚧 Project Completion - August 2025</h3>
+                <p>Complete implementation including deep learning models, custom HDI equations, and interactive geographic visualizations will be available upon project completion.</p>
+                <div style="margin-top: 1rem;">
+                    <p><strong>Planned Deliverables:</strong></p>
+                    <p>• Python deep learning implementation</p>
+                    <p>• Custom HDI calculation algorithms</p>
+                    <p>• Interactive county mapping dashboard</p>
+                    <p>• Comprehensive methodology documentation</p>
+                    <p>• Policy recommendation framework</p>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
