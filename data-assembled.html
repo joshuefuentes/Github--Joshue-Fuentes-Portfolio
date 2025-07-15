@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Assembled - Marvel Character Analysis | Joshue Fuentes Ventura</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #e0e6ed;
+            background: linear-gradient(135deg, #0f0f23 0%, #2d1b69 25%, #667eea 75%, #764ba2 100%);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(0, 255, 255, 0.1) 0%, transparent 25%),
+                radial-gradient(circle at 75% 75%, rgba(255, 0, 255, 0.08) 0%, transparent 25%),
+                radial-gradient(circle at 50% 50%, rgba(102, 126, 234, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(15, 15, 35, 0.85);
+            backdrop-filter: blur(20px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00ffff, #667eea, #ff00ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .back-link {
+            color: #00ffff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+        }
+
+        main {
+            margin-top: 80px;
+            padding: 2rem 0;
+        }
+
+        .hero {
+            background: rgba(15, 15, 35, 0.4);
+            backdrop-filter: blur(20px);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #00ffff, #667eea, #ff00ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .section {
+            background: rgba(15, 15, 35, 0.6);
+            backdrop-filter: blur(20px);
+            margin: 2rem 0;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        .section h2 {
+            color: #00ffff;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .section h3 {
+            color: #ff00ff;
+            font-size: 1.3rem;
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background: rgba(15, 15, 35, 0.8);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+        }
+
+        .card h4 {
+            color: #00ffff;
+            margin-bottom: 1rem;
+        }
+
+        .er-diagram {
+            background: rgba(15, 15, 35, 0.9);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        .table-box {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #00ffff;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem;
+            display: inline-block;
+            min-width: 200px;
+        }
+
+        .table-name {
+            color: #00ffff;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .field {
+            color: #e0e6ed;
+            font-size: 0.9rem;
+            margin: 0.2rem 0;
+        }
+
+        .key {
+            color: #ff00ff;
+            font-weight: bold;
+        }
+
+        .findings {
+            background: rgba(15, 15, 35, 0.8);
+            border-left: 4px solid #00ffff;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .code-section {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        .coming-soon {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            border-radius: 15px;
+            color: #ffa500;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo">Joshue Fuentes Ventura</a>
+            <a href="index.html" class="back-link">← Back to Portfolio</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Data Assembled</h1>
+            <p style="font-size: 1.2rem; margin-bottom: 1rem;">Predicting Marvel Cinematic Universe Success Using Comic Metadata</p>
+            <div class="status-badge">In Progress - Completion August 2025</div>
+            <p style="margin-top: 1rem; max-width: 800px; margin-left: auto; margin-right: auto;">Using advanced data analysis to predict which Marvel characters will translate well to the big screen based on comic metadata, character traits, and team dynamics.</p>
+        </section>
+
+        <section class="section">
+            <h2>Project Overview</h2>
+            <div class="grid">
+                <div class="card">
+                    <h4>🎯 Problem Statement</h4>
+                    <p>Marvel Studios faces a critical challenge: predicting which of thousands of comic characters and storylines will resonate with audiences. With Marvel's 80-year history spanning over 50,000 comics, making informed decisions is crucial for both financial success and fan engagement.</p>
+                </div>
+                <div class="card">
+                    <h4>🔍 Research Question</h4>
+                    <p>"How do specific aspects of comic metadata (such as issue counts, character popularity, story arcs, team-ups, and power levels) influence the likelihood of a Marvel character achieving commercial and critical success when adapted into the MCU?"</p>
+                </div>
+                <div class="card">
+                    <h4>💡 Unique Approach</h4>
+                    <p>Unlike traditional financial metrics, our analysis focuses on narrative elements, character dynamics, and metadata patterns that successfully bridge the gap between page and screen, demonstrated by unexpected successes like Guardians of the Galaxy.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Data Architecture & Engineering</h2>
+            <h3>Database Schema Design</h3>
+            <div class="er-diagram">
+                <div style="text-align: center; color: #00ffff; font-size: 1.2rem; margin-bottom: 2rem;">
+                    📊 MARVEL CHARACTER DATABASE - ENTITY RELATIONSHIP MODEL
+                </div>
+                
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
+                    <div class="table-box">
+                        <div class="table-name">MARVEL_CHARACTERS</div>
+                        <div class="field"><span class="key">PK</span> character_id</div>
+                        <div class="field">name</div>
+                        <div class="field">gender</div>
+                        <div class="field">eye_color</div>
+                        <div class="field">hair_color</div>
+                        <div class="field">height</div>
+                        <div class="field">weight</div>
+                        <div class="field">in_movie (BOOLEAN)</div>
+                        <div class="field">created_date</div>
+                    </div>
+
+                    <div class="table-box">
+                        <div class="table-name">COMICS</div>
+                        <div class="field"><span class="key">PK</span> comic_id</div>
+                        <div class="field">title</div>
+                        <div class="field">description</div>
+                        <div class="field">issue_number</div>
+                        <div class="field">release_date</div>
+                        <div class="field">page_count</div>
+                        <div class="field">price</div>
+                        <div class="field">format</div>
+                    </div>
+
+                    <div class="table-box">
+                        <div class="table-name">HERO_POWERS</div>
+                        <div class="field"><span class="key">PK</span> power_id</div>
+                        <div class="field">power_name</div>
+                        <div class="field">description</div>
+                    </div>
+
+                    <div class="table-box">
+                        <div class="table-name">TEAMS</div>
+                        <div class="field"><span class="key">PK</span> team_id</div>
+                        <div class="field">team_name</div>
+                        <div class="field">description</div>
+                        <div class="field">first_appearance</div>
+                    </div>
+
+                    <div class="table-box">
+                        <div class="table-name">MOVIES</div>
+                        <div class="field"><span class="key">PK</span> movie_id</div>
+                        <div class="field">title</div>
+                        <div class="field">release_date</div>
+                        <div class="field">box_office</div>
+                        <div class="field">rotten_tomatoes_score</div>
+                        <div class="field">audience_score</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; text-align: center;">
+                    <div style="color: #ff00ff; font-weight: bold;">JUNCTION TABLES (Many-to-Many Relationships)</div>
+                    <div style="margin-top: 1rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
+                        <div class="table-box" style="background: rgba(255, 0, 255, 0.1); border-color: #ff00ff;">
+                            <div class="table-name">CHARACTER_POWERS</div>
+                            <div class="field"><span class="key">FK</span> character_id</div>
+                            <div class="field"><span class="key">FK</span> power_id</div>
+                        </div>
+                        <div class="table-box" style="background: rgba(255, 0, 255, 0.1); border-color: #ff00ff;">
+                            <div class="table-name">CHARACTER_TEAMS</div>
+                            <div class="field"><span class="key">FK</span> character_id</div>
+                            <div class="field"><span class="key">FK</span> team_id</div>
+                        </div>
+                        <div class="table-box" style="background: rgba(255, 0, 255, 0.1); border-color: #ff00ff;">
+                            <div class="table-name">CHARACTER_COMICS</div>
+                            <div class="field"><span class="key">FK</span> character_id</div>
+                            <div class="field"><span class="key">FK</span> comic_id</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Data Sources & Pipeline</h3>
+            <div class="grid">
+                <div class="card">
+                    <h4>📡 Marvel Comics API</h4>
+                    <p><strong>Challenge:</strong> Frequent outages and poor data quality led to custom scraping approach</p>
+                    <p><strong>Solution:</strong> Three-stage process - collect series, scrape issues, extract metadata using keyword classification and regex patterns</p>
+                </div>
+                <div class="card">
+                    <h4>🎬 IMDb Integration</h4>
+                    <p><strong>Process:</strong> Scraped full cast pages for every Marvel movie and show</p>
+                    <p><strong>Output:</strong> in_movie indicator linking comic metadata to adaptation outcomes</p>
+                </div>
+                <div class="card">
+                    <h4>🍅 Rotten Tomatoes</h4>
+                    <p><strong>Metrics:</strong> Critical and audience scores for success measurement</p>
+                    <p><strong>Implementation:</strong> Custom scraper handling URL formatting and special cases</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Key Findings</h2>
+            <div class="findings">
+                <h3>🧠 Most Common MCU Powers</h3>
+                <p><strong>1. Telepathy Resistance</strong> - Makes sense given major telepathic threats like Loki's mind control</p>
+                <p><strong>2. Immortality</strong> - High prevalence due to cosmic characters (Asgardians, Eternals)</p>
+                <p><strong>3. Enhanced Sight</strong> - Practical ability enhancing combat, works well on screen</p>
+                <p><em>Insight: Most common powers are practical and defensive rather than flashy offensive spectacles</em></p>
+            </div>
+
+            <div class="findings">
+                <h3>👥 Team Connectivity Analysis</h3>
+                <p><strong>The Avengers</strong> appear as the most broadly connected team by far, reflecting their narrative centrality in the MCU</p>
+                <p><strong>Method:</strong> Used regex to detect team affiliations from character biography text</p>
+                <p><em>Finding: High team connectivity correlates with adaptation likelihood</em></p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Technical Implementation</h2>
+            <h3>Data Processing Pipeline</h3>
+            <div class="code-section">
+                <div style="color: #00ffff; margin-bottom: 1rem;">// Example: Character Power Analysis Query</div>
+                <div style="color: #e0e6ed;">
+SELECT p.power_name, COUNT(*) as character_count<br>
+FROM hero_powers p<br>
+JOIN character_powers cp ON p.power_id = cp.power_id<br>
+JOIN marvel_characters mc ON cp.character_id = mc.character_id<br>
+WHERE mc.in_movie = TRUE<br>
+GROUP BY p.power_name<br>
+ORDER BY character_count DESC<br>
+LIMIT 15;
+                </div>
+            </div>
+
+            <h3>Machine Learning Approach</h3>
+            <div class="grid">
+                <div class="card">
+                    <h4>🎯 Classification Model</h4>
+                    <p>Binary classifier for high vs low MCU potential using logistic regression, random forest, and gradient boosting</p>
+                </div>
+                <div class="card">
+                    <h4>📊 Feature Engineering</h4>
+                    <p>Creating categorical features for genre, era, villain types, and popularity ratings from comic metadata</p>
+                </div>
+                <div class="card">
+                    <h4>✅ Validation</h4>
+                    <p>Cross-validation and metrics including accuracy, precision, recall, and AUC-ROC for robust evaluation</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Code Repository</h2>
+            <div class="coming-soon">
+                <h3>🚧 Code Release - August 2025</h3>
+                <p>Complete codebase including web scrapers, database schemas, analysis scripts, and machine learning models will be available upon project completion.</p>
+                <div style="margin-top: 1rem;">
+                    <p><strong>Planned Releases:</strong></p>
+                    <p>• Python web scraping modules</p>
+                    <p>• PostgreSQL database setup scripts</p>
+                    <p>• R analysis and visualization code</p>
+                    <p>• Machine learning model implementations</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Project Impact</h2>
+            <p style="font-size: 1.1rem; text-align: center; margin-bottom: 2rem;">This model enables Marvel Studios to make data-driven decisions on which characters and storylines warrant million-dollar investments, moving beyond gut instinct to evidence-based content strategy.</p>
+            
+            <div class="grid">
+                <div class="card">
+                    <h4>🎬 Industry Application</h4>
+                    <p>Provides quantitative framework for content selection in entertainment industry</p>
+                </div>
+                <div class="card">
+                    <h4>📈 Scalability</h4>
+                    <p>Methodology can be adapted for other franchises and content universes</p>
+                </div>
+                <div class="card">
+                    <h4>🔬 Research Contribution</h4>
+                    <p>Novel approach to entertainment analytics combining narrative analysis with predictive modeling</p>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
