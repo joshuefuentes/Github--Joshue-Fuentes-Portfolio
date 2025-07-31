@@ -159,45 +159,6 @@
             margin-bottom: 1rem;
         }
 
-        .er-diagram {
-            background: rgba(15, 15, 35, 0.9);
-            border: 2px solid rgba(0, 255, 255, 0.3);
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            overflow-x: auto;
-        }
-
-        .table-box {
-            background: rgba(0, 255, 255, 0.1);
-            border: 1px solid #00ffff;
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 1rem;
-            display: inline-block;
-            min-width: 200px;
-        }
-
-        .table-name {
-            color: #00ffff;
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            text-align: center;
-        }
-
-        .field {
-            color: #e0e6ed;
-            font-size: 0.9rem;
-            margin: 0.2rem 0;
-        }
-
-        .key {
-            color: #ff00ff;
-            font-weight: bold;
-        }
-
         .findings {
             background: rgba(15, 15, 35, 0.8);
             border-left: 4px solid #00ffff;
@@ -271,86 +232,6 @@
 
         <section class="section">
             <h2>Data Architecture & Engineering</h2>
-            <h3>Database Schema Design</h3>
-            <div class="er-diagram">
-                <div style="text-align: center; color: #00ffff; font-size: 1.2rem; margin-bottom: 2rem;">
-                    📊 MARVEL CHARACTER DATABASE - ENTITY RELATIONSHIP MODEL
-                </div>
-                
-                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
-                    <div class="table-box">
-                        <div class="table-name">MARVEL_CHARACTERS</div>
-                        <div class="field"><span class="key">PK</span> character_id</div>
-                        <div class="field">name</div>
-                        <div class="field">gender</div>
-                        <div class="field">eye_color</div>
-                        <div class="field">hair_color</div>
-                        <div class="field">height</div>
-                        <div class="field">weight</div>
-                        <div class="field">in_movie (BOOLEAN)</div>
-                        <div class="field">created_date</div>
-                    </div>
-
-                    <div class="table-box">
-                        <div class="table-name">COMICS</div>
-                        <div class="field"><span class="key">PK</span> comic_id</div>
-                        <div class="field">title</div>
-                        <div class="field">description</div>
-                        <div class="field">issue_number</div>
-                        <div class="field">release_date</div>
-                        <div class="field">page_count</div>
-                        <div class="field">price</div>
-                        <div class="field">format</div>
-                    </div>
-
-                    <div class="table-box">
-                        <div class="table-name">HERO_POWERS</div>
-                        <div class="field"><span class="key">PK</span> power_id</div>
-                        <div class="field">power_name</div>
-                        <div class="field">description</div>
-                    </div>
-
-                    <div class="table-box">
-                        <div class="table-name">TEAMS</div>
-                        <div class="field"><span class="key">PK</span> team_id</div>
-                        <div class="field">team_name</div>
-                        <div class="field">description</div>
-                        <div class="field">first_appearance</div>
-                    </div>
-
-                    <div class="table-box">
-                        <div class="table-name">MOVIES</div>
-                        <div class="field"><span class="key">PK</span> movie_id</div>
-                        <div class="field">title</div>
-                        <div class="field">release_date</div>
-                        <div class="field">box_office</div>
-                        <div class="field">rotten_tomatoes_score</div>
-                        <div class="field">audience_score</div>
-                    </div>
-                </div>
-
-                <div style="margin-top: 2rem; text-align: center;">
-                    <div style="color: #ff00ff; font-weight: bold;">JUNCTION TABLES (Many-to-Many Relationships)</div>
-                    <div style="margin-top: 1rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
-                        <div class="table-box" style="background: rgba(255, 0, 255, 0.1); border-color: #ff00ff;">
-                            <div class="table-name">CHARACTER_POWERS</div>
-                            <div class="field"><span class="key">FK</span> character_id</div>
-                            <div class="field"><span class="key">FK</span> power_id</div>
-                        </div>
-                        <div class="table-box" style="background: rgba(255, 0, 255, 0.1); border-color: #ff00ff;">
-                            <div class="table-name">CHARACTER_TEAMS</div>
-                            <div class="field"><span class="key">FK</span> character_id</div>
-                            <div class="field"><span class="key">FK</span> team_id</div>
-                        </div>
-                        <div class="table-box" style="background: rgba(255, 0, 255, 0.1); border-color: #ff00ff;">
-                            <div class="table-name">CHARACTER_COMICS</div>
-                            <div class="field"><span class="key">FK</span> character_id</div>
-                            <div class="field"><span class="key">FK</span> comic_id</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <h3>Data Sources & Pipeline</h3>
             <div class="grid">
                 <div class="card">
